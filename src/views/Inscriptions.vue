@@ -443,7 +443,11 @@
         </b-field>
       </div>
       <div>
-        <b-field style="margin-top: 15px" label="Autorización de .." required>
+        <b-field
+          style="margin-top: 15px"
+          label="Autorización de derechos de uso de imagenes"
+          required
+        >
           <b-checkbox class="check-data" v-model="terminos2" />
         </b-field>
       </div>
@@ -489,7 +493,7 @@ export default {
       discover: {},
       terminos1: false,
       terminos2: false,
-      // pdf: { url: "", label: "terminos" },
+      pdf: { url: "@/assets/autorizacion.pdf", label: "autorizacion" },
     };
   },
   mounted() {
@@ -513,33 +517,30 @@ export default {
         console.log(res);
         this.inscriptions = res.data;
         this.challenge = this.inscriptions.filter((obj) => {
-          console.log("asdf", obj);
           return obj.category == "CHALLENGE";
         });
         this.explore = this.inscriptions.filter((obj) => {
-          console.log("asdf", obj);
           return obj.category == "EXPLORE";
         });
         this.discover = this.inscriptions.filter((obj) => {
-          console.log("asdf", obj);
           return obj.category == "DISCOVER";
         });
       });
   },
   methods: {
-    // downloadItem({ url, label }) {
-    //   axios
-    //     .get(url, { responseType: "blob" })
-    //     .then((response) => {
-    //       const blob = new Blob([response.data], { type: "application/pdf" });
-    //       const link = document.createElement("a");
-    //       link.href = URL.createObjectURL(blob);
-    //       link.download = label;
-    //       link.click();
-    //       URL.revokeObjectURL(link.href);
-    //     })
-    //     .catch(console.error);
-    // },
+    downloadItem({ url, label }) {
+      axios
+        .get(url, { responseType: "blob" })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = label;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
+    },
     confirm() {
       this.$buefy.dialog.alert({
         title: "Confirme sus participaciones",
